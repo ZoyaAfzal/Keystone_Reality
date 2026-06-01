@@ -1,0 +1,177 @@
+@import "tailwindcss" source(none);
+@import "tw-animate-css";
+
+@source "../src";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Cormorant Garamond", serif;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-light: var(--primary-light);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-green-accent: var(--green-accent);
+}
+
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.13 0 0);          /* #0A0A0A */
+  --foreground: oklch(0.95 0.012 80);     /* #F5F0E8 */
+  --surface: oklch(0.16 0 0);             /* #111111 */
+  --surface-2: oklch(0.2 0 0);            /* #1A1A1A */
+  --card: oklch(0.16 0 0);
+  --card-foreground: oklch(0.95 0.012 80);
+  --popover: oklch(0.16 0 0);
+  --popover-foreground: oklch(0.95 0.012 80);
+  --primary: oklch(0.74 0.09 80);         /* #C9A96E warm gold */
+  --primary-foreground: oklch(0.13 0 0);
+  --primary-light: oklch(0.83 0.1 85);    /* #E8C98A */
+  --secondary: oklch(0.2 0 0);
+  --secondary-foreground: oklch(0.95 0.012 80);
+  --muted: oklch(0.2 0 0);
+  --muted-foreground: oklch(0.55 0.005 80); /* #7A7A7A */
+  --accent: oklch(0.74 0.09 80);
+  --accent-foreground: oklch(0.13 0 0);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.26 0 0);              /* #2A2A2A */
+  --input: oklch(0.26 0 0);
+  --ring: oklch(0.74 0.09 80);
+  --green-accent: oklch(0.68 0.13 150);   /* #4CAF72 */
+}
+
+.dark {
+  --background: oklch(0.13 0 0);
+  --foreground: oklch(0.95 0.012 80);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-background);
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .font-sans { font-family: var(--font-sans); }
+  .text-gold { color: var(--color-primary); }
+  .bg-gold { background-color: var(--color-primary); }
+
+  .gold-italic {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--color-primary);
+  }
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--color-primary) 0%,
+      var(--color-primary-light) 50%,
+      var(--color-primary) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+  }
+
+  .noise {
+    position: relative;
+  }
+  .noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;
+    height: 1px;
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .link-underline:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .gold-border-hover {
+    transition: all 0.3s ease;
+  }
+  .gold-border-hover:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 10px 40px -10px color-mix(in oklab, var(--color-primary) 30%, transparent);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes scroll-indicator {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(20px); opacity: 0; }
+}
